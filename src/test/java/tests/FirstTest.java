@@ -8,6 +8,9 @@ public class FirstTest extends BaseTest {
     @Test
     public void firstTest(){
         log.info("Starting test");
-        getAllTransactions();
+        System.out.println(getAllTransactions().size());
+        log.info("Deleting all endpoints");
+        cleanTheEndpoint();
+        System.out.println(getAllTransactions().size());
     }
 }
