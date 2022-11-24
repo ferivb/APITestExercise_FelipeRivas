@@ -18,6 +18,8 @@
     <jackson-databind.version>2.14.0</jackson-databind.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
+    <podam.version>7.2.11.RELEASE</podam.version>
+    <javafaker.version>1.0.2</javafaker.version>
   </properties>
 
   <dependencies>
@@ -43,6 +45,18 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>${jackson-databind.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/uk.co.jemos.podam/podam -->
+    <dependency>
+      <groupId>uk.co.jemos.podam</groupId>
+      <artifactId>podam</artifactId>
+      <version>${podam.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+    <dependency>
+      <groupId>com.github.javafaker</groupId>
+      <artifactId>javafaker</artifactId>
+      <version>${javafaker.version}</version>
     </dependency>
   </dependencies>
 </project>
