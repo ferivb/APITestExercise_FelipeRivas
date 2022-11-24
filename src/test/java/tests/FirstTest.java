@@ -1,8 +1,11 @@
 package tests;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import util.pojo.RandomPOJOGenerator;
+import util.pojo.BankTransaction;
 import util.test.BaseTest;
+
+import java.util.List;
 
 public class FirstTest extends BaseTest {
 
@@ -13,6 +16,31 @@ public class FirstTest extends BaseTest {
         log.info("Deleting all endpoints");
         cleanTheEndpoint();
         System.out.println(getAllTransactions().size());
-        RandomPOJOGenerator.generate10POJOs();
+        log.info("generating POJOs");
+        List<BankTransaction> randomTransactions = generatePOJO(5);
+        for (BankTransaction i: randomTransactions) {
+            System.out.println(pojoSerializer(i));
+        }
+        log.info("Generating duplicated emails");
+        BankTransaction duplicated1 = new BankTransaction(
+                "dup", "plicated", 123, 123.90, "whatever",
+                "abc@email.com", true, "Peru", "123456"
+        );
+        randomTransactions.add(duplicated1);
+        BankTransaction duplicated2 = new BankTransaction(
+                "dup", "plicated", 123, 123.90, "whatever",
+                "abc@email.com", true, "Peru", "123456"
+        );
+        randomTransactions.add(duplicated2);
+        log.info("Trimming duplicated emails");
+        List<BankTransaction> transactions = duplicateEmailTrimmer(randomTransactions);
+        for (BankTransaction i: transactions) {
+            System.out.println(pojoSerializer(i));
+        }
+        log.info("Posting to mockapi");
+        for (BankTransaction i: transactions){
+            postToAPI(pojoSerializer(i));
+        }
+
     }
 }

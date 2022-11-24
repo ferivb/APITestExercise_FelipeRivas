@@ -16,7 +16,7 @@ public class BankTransaction {
     public BankTransaction(){};
 
     public BankTransaction(String name, String lastName, int accountNumber,
-                           double amount, String email, boolean active,
+                           double amount, String transactionType, String email, boolean active,
                            String country, String telephone) {
         this.id = id;
         this.name = name;
