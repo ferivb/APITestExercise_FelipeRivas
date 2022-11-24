@@ -76,8 +76,6 @@ public class BaseTest {
                         name, lastName, accountNumber, amount, transactionType, email, active, country, telephone
                 );
                 randomTransactions.add(newTransaction);
-                System.out.println(newTransaction);
-                System.out.println(newTransaction.getEmail());
             }
         }
         return randomTransactions;
@@ -111,6 +109,14 @@ public class BaseTest {
     public int postToAPI(String transaction){
         Response response = given().contentType("application/json").body(transaction).when().post(url);
         return response.getStatusCode();
+    }
+
+    public boolean areThereDuplicateEmails(List<BankTransaction> transactions){
+        List<String> emails = new ArrayList<>();
+        for (BankTransaction i : transactions){
+            emails.add(i.getEmail());
+        }
+        return emails.stream().distinct().count() < transactions.size();
     }
 
 }

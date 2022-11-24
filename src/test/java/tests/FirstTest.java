@@ -19,7 +19,7 @@ public class FirstTest extends BaseTest {
         log.info("generating POJOs");
         List<BankTransaction> randomTransactions = generatePOJO(5);
         for (BankTransaction i: randomTransactions) {
-            System.out.println(pojoSerializer(i));
+            pojoSerializer(i);
         }
         log.info("Generating duplicated emails");
         BankTransaction duplicated1 = new BankTransaction(
@@ -35,12 +35,14 @@ public class FirstTest extends BaseTest {
         log.info("Trimming duplicated emails");
         List<BankTransaction> transactions = duplicateEmailTrimmer(randomTransactions);
         for (BankTransaction i: transactions) {
-            System.out.println(pojoSerializer(i));
+            pojoSerializer(i);
         }
         log.info("Posting to mockapi");
         for (BankTransaction i: transactions){
-            postToAPI(pojoSerializer(i));
+            Assert.assertEquals(postToAPI(pojoSerializer(i)),201);
         }
+        log.info("New get request");
+        Assert.assertFalse(areThereDuplicateEmails(getAllTransactions()));
 
     }
 }
