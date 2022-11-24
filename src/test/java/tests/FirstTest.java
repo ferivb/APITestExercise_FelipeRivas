@@ -43,6 +43,7 @@ public class FirstTest extends BaseTest {
         }
         log.info("New get request");
         Assert.assertFalse(areThereDuplicateEmails(getAllTransactions()));
-
+        log.info("Checking if put works");
+        Assert.assertEquals(updateAccountNumberById(2, 666), 200);
     }
 }
