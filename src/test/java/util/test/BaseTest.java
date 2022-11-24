@@ -31,4 +31,23 @@ public class BaseTest {
             throw new RuntimeException(e);
         }
     }
+
+    public void cleanTheEndpoint(){
+
+        List<BankTransaction> allTransactions = getAllTransactions();
+
+        if (allTransactions.size() > 0){
+            for (BankTransaction i : allTransactions){
+                System.out.println(deleteEndpoint(i.getId()));
+            }
+        }
+    }
+
+    public int deleteEndpoint(int id){
+
+        String endPoint = url + "/" + id;
+
+        Response response = given().contentType("application/json").when().delete(endPoint);
+        return response.getStatusCode();
+    }
 }
