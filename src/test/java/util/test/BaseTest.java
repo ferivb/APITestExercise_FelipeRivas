@@ -10,7 +10,9 @@ import org.apache.log4j.Logger;
 import util.pojo.BankTransaction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
@@ -117,6 +119,15 @@ public class BaseTest {
             emails.add(i.getEmail());
         }
         return emails.stream().distinct().count() < transactions.size();
+    }
+
+    public int updateAccountNumberById(int id, int accountNumber){
+        String endPoint = url + "/" + id;
+        Map<String, Integer> account = new HashMap<String, Integer>();
+        account.put("accountNumber", accountNumber);
+
+        Response response = given().contentType("application/json").body(account).when().put(endPoint);
+        return response.getStatusCode();
     }
 
 }
