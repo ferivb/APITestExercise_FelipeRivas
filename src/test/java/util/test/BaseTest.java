@@ -38,7 +38,7 @@ public class BaseTest {
 
         if (allTransactions.size() > 0){
             for (BankTransaction i : allTransactions){
-                System.out.println(deleteEndpoint(i.getId()));
+                deleteEndpoint(i.getId());
             }
         }
     }
@@ -50,4 +50,15 @@ public class BaseTest {
         Response response = given().contentType("application/json").when().delete(endPoint);
         return response.getStatusCode();
     }
+
+    public String pojoSerializer(BankTransaction transaction){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(transaction);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

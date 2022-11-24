@@ -6,7 +6,7 @@ public class BankTransaction {
     private String name;
     private String lastName;
     private int accountNumber;
-    private float amount;
+    private double amount;
     private String transactionType;
     private String email;
     private boolean active;
@@ -15,8 +15,8 @@ public class BankTransaction {
 
     public BankTransaction(){};
 
-    public BankTransaction(int id, String name, String lastName, int accountNumber,
-                           float amount, String transactionType, String email, boolean active,
+    public BankTransaction(String name, String lastName, int accountNumber,
+                           double amount, String email, boolean active,
                            String country, String telephone) {
         this.id = id;
         this.name = name;
@@ -46,7 +46,7 @@ public class BankTransaction {
         return accountNumber;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 

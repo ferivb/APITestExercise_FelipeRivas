@@ -1,6 +1,7 @@
 package tests;
 
 import org.testng.annotations.Test;
+import util.pojo.RandomPOJOGenerator;
 import util.test.BaseTest;
 
 public class FirstTest extends BaseTest {
@@ -12,5 +13,6 @@ public class FirstTest extends BaseTest {
         log.info("Deleting all endpoints");
         cleanTheEndpoint();
         System.out.println(getAllTransactions().size());
+        RandomPOJOGenerator.generate10POJOs();
     }
 }
