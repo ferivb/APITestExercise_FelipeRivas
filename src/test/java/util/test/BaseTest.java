@@ -5,15 +5,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import io.restassured.response.Response;
-import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
-import util.pojo.BankTransaction;
+import org.testng.annotations.BeforeClass;
+import util.models.BankTransaction;
+import util.models.ResponsePOJO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 
 public class BaseTest {
@@ -22,30 +24,34 @@ public class BaseTest {
 
     public Logger log = Logger.getLogger(BaseTest.class);
 
-
-    public List<BankTransaction> getAllTransactions() {
-        Response response = given().when().get(url);
-
-        String jsonString = response.asPrettyString();
-
-        final ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            List<BankTransaction> transactionList = objectMapper.readValue(jsonString, new TypeReference<List<BankTransaction>>() {});
-            response.then().assertThat().statusCode(HttpStatus.SC_OK);
-            return transactionList;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void cleanTheEndpoint(){
-
-        List<BankTransaction> allTransactions = getAllTransactions();
+    public void cleanTheEndpoint(ResponsePOJO response){
+        List<BankTransaction> allTransactions = response.getBody();
 
         if (allTransactions.size() > 0){
             for (BankTransaction i : allTransactions){
                 deleteEndpoint(i.getId());
             }
+        }
+    }
+
+    public ResponsePOJO getResponse(){
+        Response response = given().get(url);
+        int statusCode = response.then().extract().statusCode();
+        List<BankTransaction> body = getAllTransactions(response);
+        return new ResponsePOJO(statusCode, body);
+    }
+
+
+    public List<BankTransaction> getAllTransactions(Response response) {
+        String jsonString = response.asPrettyString();
+
+        final ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            List<BankTransaction> transactionList = objectMapper.readValue(jsonString, new TypeReference<>() {
+            });
+            return transactionList;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -83,7 +89,7 @@ public class BaseTest {
         return randomTransactions;
     }
 
-    public List<BankTransaction> duplicateEmailTrimmer(List<BankTransaction> randomTransactions){
+    public List<BankTransaction> duplicatedEmailTrimmer(List<BankTransaction> randomTransactions){
         List<BankTransaction> trimmedTransactions = new ArrayList<>();
         List<String> emails = new ArrayList<>();
 
@@ -113,7 +119,7 @@ public class BaseTest {
         return response.getStatusCode();
     }
 
-    public boolean areThereDuplicateEmails(List<BankTransaction> transactions){
+    public boolean areThereDuplicatedEmails(List<BankTransaction> transactions){
         List<String> emails = new ArrayList<>();
         for (BankTransaction i : transactions){
             emails.add(i.getEmail());

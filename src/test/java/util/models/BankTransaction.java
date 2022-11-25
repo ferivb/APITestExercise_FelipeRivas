@@ -1,4 +1,4 @@
-package util.pojo;
+package util.models;
 
 public class BankTransaction {
 
