@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
-import org.testng.annotations.BeforeClass;
 import util.models.BankTransaction;
 import util.models.ResponsePOJO;
 
@@ -15,15 +14,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 
+/**
+ * Base class for all tests
+ * @author felipe.rivas
+ */
 public class BaseTest {
 
     private String url = "https://637b930d6f4024eac211f250.mockapi.io/api/v1/bankTransactions";
 
     public Logger log = Logger.getLogger(BaseTest.class);
 
+    /**
+     * Cleans the endpoint given it is not already empty
+     * @param response ResponsePOJO
+     * @author Felipe.Rivas
+     */
     public void cleanTheEndpoint(ResponsePOJO response){
         List<BankTransaction> allTransactions = response.getBody();
 
@@ -34,6 +41,11 @@ public class BaseTest {
         }
     }
 
+    /**
+     * Stores the get response body and status code in a POJO
+     * @return ResponsePOJO class instance
+     * @author Felipe.Rivas
+     */
     public ResponsePOJO getResponse(){
         Response response = given().get(url);
         int statusCode = response.then().extract().statusCode();
@@ -42,6 +54,12 @@ public class BaseTest {
     }
 
 
+    /**
+     * Deserializes the body of a get request
+     * @param response Response
+     * @return deserialized body in a POJO list: List<BankTransaction>
+     * @author Felipe.Rivas
+     */
     public List<BankTransaction> getAllTransactions(Response response) {
         String jsonString = response.asPrettyString();
 
@@ -55,6 +73,12 @@ public class BaseTest {
         }
     }
 
+    /**
+     * Makes a delete request to the given endpoint
+     * @param id int
+     * @return statusCode int
+     * @author Felipe.Rivas
+     */
     public int deleteEndpoint(int id){
 
         String endPoint = url + "/" + id;
@@ -63,6 +87,12 @@ public class BaseTest {
         return response.getStatusCode();
     }
 
+    /**
+     * Generates a provided amount of POJOs
+     * @param amountToGenerate int
+     * @return deserialized list of POJOs
+     * @author Felipe.Rivas
+     */
     public List<BankTransaction> generatePOJO(int amountToGenerate){
         Faker faker = new Faker();
         List<BankTransaction> randomTransactions = new ArrayList<>();
@@ -89,6 +119,12 @@ public class BaseTest {
         return randomTransactions;
     }
 
+    /**
+     * Removes POJOs with a duplicated email address
+     * @param randomTransactions List
+     * @return List
+     * @author Felipe.Rivas
+     */
     public List<BankTransaction> duplicatedEmailTrimmer(List<BankTransaction> randomTransactions){
         List<BankTransaction> trimmedTransactions = new ArrayList<>();
         List<String> emails = new ArrayList<>();
@@ -105,6 +141,12 @@ public class BaseTest {
         return trimmedTransactions;
     }
 
+    /**
+     * Serializes a POJO into a JSON String
+     * @param transaction BankTransaction POJO
+     * @return JSON String
+     * @author Felipe.Rivas
+     */
     public String pojoSerializer(BankTransaction transaction){
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -114,11 +156,23 @@ public class BaseTest {
         }
     }
 
+    /**
+     * Makes a post request
+     * @param transaction String
+     * @return statusCode int
+     * @author Felipe.Rivas
+     */
     public int postToAPI(String transaction){
         Response response = given().contentType("application/json").body(transaction).when().post(url);
         return response.getStatusCode();
     }
 
+    /**
+     * Confirms if duplicated emails were found
+     * @param transactions List
+     * @return boolean
+     * @author Felipe.Rivas
+     */
     public boolean areThereDuplicatedEmails(List<BankTransaction> transactions){
         List<String> emails = new ArrayList<>();
         for (BankTransaction i : transactions){
@@ -127,6 +181,13 @@ public class BaseTest {
         return emails.stream().distinct().count() < transactions.size();
     }
 
+    /**
+     * Makes a put request updating the account number of a given endpoint
+     * @param id int
+     * @param accountNumber int
+     * @return statusCode int
+     * @author Felipe.Rivas
+     */
     public int updateAccountNumberById(int id, int accountNumber){
         String endPoint = url + "/" + id;
         Map<String, Integer> account = new HashMap<String, Integer>();

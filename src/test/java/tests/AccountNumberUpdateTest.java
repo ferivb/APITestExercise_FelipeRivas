@@ -12,6 +12,10 @@ import java.util.List;
 
 public class AccountNumberUpdateTest extends BaseTest {
 
+    /**
+     * Populates the endpoint before the test
+     * @author Felipe.rivas
+     */
     @BeforeMethod
     public void populateEndpoint(){
         ResponsePOJO response = getResponse();
@@ -25,6 +29,10 @@ public class AccountNumberUpdateTest extends BaseTest {
         }
     }
 
+    /**
+     * Put test on mockapi endpoint
+     * @author Felipe.Rivas
+     */
     @Test
     public void fourthTest(){
         Faker faker = new Faker();

@@ -13,8 +13,27 @@ public class BankTransaction {
     private String country;
     private String telephone;
 
+    /**
+     * Empty constructor for The BankTransaction POJO
+     *
+     * @author Felipe.Rivas
+     */
     public BankTransaction(){};
 
+    /**
+     * Constructor for the BankTransaction POJO
+     *
+     * @param name String
+     * @param lastName String
+     * @param accountNumber int
+     * @param amount double
+     * @param transactionType String
+     * @param email String
+     * @param active boolean
+     * @param country String
+     * @param telephone String
+     * @author Felipe.Rivas
+     */
     public BankTransaction(String name, String lastName, int accountNumber,
                            double amount, String transactionType, String email, boolean active,
                            String country, String telephone) {

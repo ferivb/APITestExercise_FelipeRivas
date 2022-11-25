@@ -7,6 +7,10 @@ import util.test.BaseTest;
 
 public class DuplicatedEmailsTest extends BaseTest {
 
+    /**
+     * Email duplicate test on mockapi endpoint.
+     * @author Felipe.rivas
+     */
     @Test
     public void thirdTest(){
 

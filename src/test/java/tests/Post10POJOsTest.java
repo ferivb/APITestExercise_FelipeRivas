@@ -9,6 +9,10 @@ import java.util.List;
 
 public class Post10POJOsTest extends BaseTest {
 
+    /**
+     * Post test on mockapi endpoint
+     * @author Felipe.Rivas
+     */
     @Test
     public void secondTest(){
 
