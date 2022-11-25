@@ -8,12 +8,20 @@ import util.test.BaseTest;
 
 public class EmptyEndpointTest extends BaseTest {
 
+    /**
+     * Emptying the endpoint before test
+     * @author Felipe.Rivas
+     */
     @BeforeMethod
     public void emptyEndpoint(){
         ResponsePOJO response = getResponse();
         cleanTheEndpoint(response);
     }
 
+    /**
+     * Get test, empty endpoint validation
+     * @author Felipe.Rivas
+     */
     @Test
     public void firstTest(){
 
